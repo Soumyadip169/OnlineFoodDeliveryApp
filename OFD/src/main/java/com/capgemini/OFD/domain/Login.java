@@ -1,5 +1,12 @@
 package com.capgemini.OFD.domain;
 
+/**
+ * This is the Login bean class with userid, username and passwords as data members
+ * All necessary constructors and setters/getters are provided
+ * 
+ * @author Soumyadip
+ *
+ */
 public class Login {
 	/*
 	 * User ID of customer or restaurant owner
