@@ -1,4 +1,4 @@
-package com.capgemini.OFD;
+package com.capgemini.OFD.service;
 
 public class ILoginService {
 
