@@ -1,93 +1,64 @@
 package com.capgemini.OFD.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-/**
- * 
- * This OrderDetails class is a domain, which represents data and it will be moving layer to layer
- * @author Sreeraj R
- *
- */
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
+@Table(name="order_master")
 public class OrderDetails {
-	/**
-	 * Id of the Order
-	 * Primary Key and Auto generated
-	 */
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer orderId;
-	
-	/**
-	 * Date at which the order placed
-	 */
-	private LocalDateTime orderDate;
-	
-	/**
-	 * Cart of the user
-	 */
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL , mappedBy = "orderdetails")
-	private FoodCart cart;
-	
-	/**
-	 * Status of the order
-	 */
-	private String orderStatus;
-
-	public OrderDetails() {
-		super();
+	@Column(name="orderid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int OrderId;
+	public int getOrderId() {
+		return OrderId;
 	}
-	
-	public OrderDetails(Integer orderId, LocalDateTime orderDate, FoodCart cart, String orderStatus) {
-		super();
-		this.orderId = orderId;
-		this.orderDate = orderDate;
-		this.cart = cart;
-		this.orderStatus = orderStatus;
+	public void setOrderId(int orderId) {
+		OrderId = orderId;
 	}
-
-	public Integer getOrderId() {
-		return orderId;
+	public LocalDate getOrderDate() {
+		return OrderDate;
 	}
-
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
+	public void setOrderDate(LocalDate orderDate) {
+		OrderDate = orderDate;
 	}
-
-	public LocalDateTime getOrderDate() {
-		return orderDate;
-	}
-
-	public void setOrderDate(LocalDateTime orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	public FoodCart getCart() {
-		return cart;
-	}
-
-	public void setCart(FoodCart cart) {
-		this.cart = cart;
-	}
-
 	public String getOrderStatus() {
 		return orderStatus;
 	}
-
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
+	}@JsonIgnore
+	public FoodCart getFoodcart() {
+		return foodcart;
 	}
-	
-	
-	
-	
+	public void setFoodcart(FoodCart foodcart) {
+		this.foodcart = foodcart;
+	}
+	@Column
+	private LocalDate OrderDate;
+	@Column
+	private String  orderStatus;
+	@OneToOne(mappedBy="orderdetails",cascade=CascadeType.ALL)
+	private FoodCart foodcart;
+	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	private Bill bill;
+	@JsonIgnore
+	public Bill getBill() {
+		return bill;
+	}
+	public void setBill(Bill bill) {
+		this.bill = bill;
+	}
+
 }

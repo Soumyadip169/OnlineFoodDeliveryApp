@@ -1,55 +1,46 @@
 package com.capgemini.OFD.domain;
 
-/**
- * This is the Login bean class with userid, username and passwords as data members
- * All necessary constructors and setters/getters are provided
- * 
- * @author Soumyadip Pal
- *
- */
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="users")
 public class Login {
-	/*
-	 * User ID of customer or restaurant owner
-	 * PK and unique
-	 */
-	private String userid;
-	/*
-	 * User name
-	 */
-	private String username;
-	/*
-	 * Password of user
-	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="user_id")
+	private Integer id; 
+	@Column(name="user_name")
+	private String userName; 
+	@Column(name="password")
 	private String password;
-	/*
-	 * Default Constructor
-	 */
-	public Login() {
-		super();
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_role", 
+	      joinColumns = @JoinColumn(name="user_id", referencedColumnName="user_id"),
+	      inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName="role_id"))
+  	private Set<Role> roles = new HashSet<>();
+	public Integer getId() {
+		return id;
 	}
-	/*
-	 * Parameterized constructor
-	 */
-	public Login(String userid, String username, String password) {
-		super();
-		this.userid = userid;
-		this.username = username;
-		this.password = password;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	/*
-	 * Setters and getters
-	 */
-	public String getUserid() {
-		return userid;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getPassword() {
 		return password;
@@ -57,4 +48,11 @@ public class Login {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
 }

@@ -2,117 +2,81 @@ package com.capgemini.OFD.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/* This is Entity class
- * 
- */
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-
-/* To create table "items" */
-@Table (name = "items")
-
+@Table(name="item_master")
 public class Item {
-	/*
-	 * All the private members are defined here with suitable datatypes
-	 * 
-	 */
+
 	@Id
-	/*  For creating item_id column */
-	@Column (name = "item_id" ,length=20)
-	private String itemId;
-	
-	/* For creating item_name column */
-	@Column (name = "item_name" , length=30)
+	@Column(name="itemid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int itemId;
+	@Column
 	private String itemName;
+	@Column
+	public Integer quantity;
+	@Column
+	private double cost;
 	
-	/* To create category */
-	private Category category;
-	
-	/* For creating quantity column */
-	@Column (name="quanity")
-	private Integer quantity;
-	
-	/*For creating cost column */
-	@Column (name="cost")
-	private Double cost;
-	
-	private List<Restaurant> restaurants;
-	
-	/* 
-	 * A default Constructor with no implementation
-	 */
-	public Item()  {
-		//default
-	}
-	
-	/*
-	 * A Parametrized Constructor for assigning the values  to private members
-	 */
-
-	public Item(String itemId, String itemName, Category category, Integer quantity, Double cost,
-			List<Restaurant> restaurants) {
-		super();
-		this.itemId = itemId;
-		this.itemName = itemName;
-		this.category = category;
-		this.quantity = quantity;
-		this.cost = cost;
-		this.restaurants = restaurants;
-	}
-
-	public String getItemId() {
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "cartId")
+	private FoodCart foodcart;
+	public int getItemId() {
 		return itemId;
 	}
-
-	public void setItemId(String itemId) {
+	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-
 	public String getItemName() {
 		return itemName;
 	}
-
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
 	public Integer getQuantity() {
 		return quantity;
 	}
-
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-
-	public Double getCost() {
+	public double getCost() {
 		return cost;
 	}
-
-	public void setCost(Double cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
-
-	public List<Restaurant> getRestaurants() {
-		return restaurants;
+	@JsonIgnore
+	public FoodCart getFoodcart() {
+		return foodcart;
 	}
-
-	public void setRestaurants(List<Restaurant> restaurants) {
-		this.restaurants = restaurants;
+	public void setFoodcart(FoodCart foodcart) {
+		this.foodcart = foodcart;
 	}
+	@OneToOne(mappedBy="item",cascade=CascadeType.ALL)
 	
-	
-	
-
+	private Category category;
+	@ManyToMany(mappedBy="itemList",cascade=CascadeType.ALL,fetch=FetchType.EAGER)//(targetEntity=Item.class)
+										//@JoinColumn(name="itemId")
+	private List<Restaurant> restaurants; 
+	@JsonIgnore
+	public Category getCategory() {
+		return category;
+	}
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }

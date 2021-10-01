@@ -1,77 +1,63 @@
 package com.capgemini.OFD.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-/**
- * The FoodCart Class is a domain, which represents data and it will be moving layer to layer
- * @author Sreeraj R
- * 
- *
- */
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name="foodcart_master")
 public class FoodCart {
-	/**
-	 * Id of Cart
-	 * Primary Key
-	 */
+	
 	@Id
-	private String cartId;
+	@Column(name="cartid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
-	/**
-	 * customer owing the cart
-	 * OnetoOne relation with customer
-	 */
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "foodcart")
+	private int cartId;
+	@OneToOne(mappedBy="foodcart",cascade=CascadeType.ALL)
 	private Customer customer;
-	
-	/**
-	 * List of items 
-	 * One to many relation with customer 
-	 */
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "foodcart")
-	private List<Item> itemList;
-
-	public FoodCart() {
-		super();
-	}
-	
-	public FoodCart(String cartId, Customer customer, List<Item> itemList) {
-		super();
-		this.cartId = cartId;
-		this.customer = customer;
-		this.itemList = itemList;
-	}
-
-	public String getCartId() {
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="orderid")
+	//@JsonIgnore
+	private OrderDetails orderdetails;
+	public int getCartId() {
 		return cartId;
 	}
-
-	public void setCartId(String cartId) {
+	public void setCartId(int cartId) {
 		this.cartId = cartId;
 	}
-
+	@JsonIgnore
 	public Customer getCustomer() {
 		return customer;
 	}
-
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-	public List<Item> getItemList() {
-		return itemList;
+	@OneToMany(targetEntity=FoodCart.class,cascade=CascadeType.ALL)
+	//@JoinColumn(name="cartid")
+	private List<Item> itemlist=new ArrayList<>();
+	//@JsonIgnore
+	public List<Item> getItemlist() {
+		return itemlist;
+	}
+	public void setItemlist(List<Item> itemlist) {
+		this.itemlist = itemlist;
+//		for(Item i: itemlist)
+//		{
+//			i.setFoodCart(this);
+//		}
 	}
 
-	public void setItemList(List<Item> itemList) {
-		this.itemList = itemList;
-	}
-	
-	
 }

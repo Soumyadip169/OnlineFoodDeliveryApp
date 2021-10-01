@@ -2,119 +2,68 @@ package com.capgemini.OFD.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/* This is an Entity class
- * 
- */
 @Entity
-
-/* To create table  "restaurants" */
-@Table(name = "restaurants")
-
+@Table(name="res_master")
 public class Restaurant {
-	/*
-	 * All the members are defined here with suitable datatypes
-	 * 
-	 */
+	
 	@Id
-	/* To create column "restaurant_id */
-	@Column (name = "restaurant_id" , length = 20)
-	private String restaurantId;
-	
-	/* To create  column "restaurant_name */ 
-	@Column (name = "restaurant_name" , length = 30 )
-	private String restaurantName;
-	
-	/* To embed address from AddressModel */
-	@Embedded
-	private Address address;
-	
-	/* To create itemlist */
-	private List<Item> itemlist; 
-	
-	/* To create column "manager_name" */
-	private String ManagerName;
-	
-	/* To create column "contact_number" */
-	private String ContactNumber;
-	
-	/*
-	 * A default Constructor with no implementation
-	 */
-	public Restaurant() {
-		//default
-	}
-	
-	/* 
-	 * A Parameterized Constructor for assigning the values to private numbers
-	 */
-	public Restaurant(String restaurantId, String restaurantName,Address address, 
-			List<Item> itemlist , String ManagerName, String ContactNumber)  {
-		super();
-		this.restaurantId = restaurantId;
-		this.restaurantId = restaurantId;
-		this.address = address;
-		this.itemlist = itemlist;
-		this.ManagerName = ManagerName;
-		this.ContactNumber =  ContactNumber;
-	}
-	
-	/* 
-	 * Corresponding Getters and Setters for private members
-	 * 
-	 */
-
-	public String getRestaurantId() {
+	@Column(name="restaurantid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int restaurantId;
+	@Column
+	private String resturantName;
+	public int getRestaurantId() {
 		return restaurantId;
 	}
-
-	public void setRestaurantId(String restaurantId) {
+	public void setRestaurantId(int restaurantId) {
 		this.restaurantId = restaurantId;
 	}
-
-	public String getRestaurantName() {
-		return restaurantName;
+	public String getResturantName() {
+		return resturantName;
 	}
-
-	public void setRestaurantName(String restaurantName) {
-		this.restaurantName = restaurantName;
+	public void setResturantName(String resturantName) {
+		this.resturantName = resturantName;
 	}
-
+	public String getManagerName() {
+		return managerName;
+	}
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
+	}
+	public String getContactNumber() {
+		return contactNumber;
+	}
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
 	public Address getAddress() {
 		return address;
 	}
-
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	public List<Item> getItemlist() {
-		return itemlist;
-	}
-
-	public void setItemlist(List<Item> itemlist) {
-		this.itemlist = itemlist;
-	}
-
-	public String getManagerName() {
-		return ManagerName;
-	}
-
-	public void setManagerName(String managerName) {
-		ManagerName = managerName;
-	}
-
-	public String getContactNumber() {
-		return ContactNumber;
-	}
-
-	public void setContactNumber(String contactNumber) {
-		ContactNumber = contactNumber;
-	}	
+	@Column
+	private String managerName;
+	@Column
+	private String contactNumber;
+	@OneToOne(mappedBy="restaurant")
+	private Address address;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	//@Column(name="itemid")
+	@JoinColumn(name="itemid")
+	private List<Item> itemList;
+	
 
 }

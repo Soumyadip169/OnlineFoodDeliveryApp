@@ -1,23 +1,16 @@
 package com.capgemini.OFD.service;
 
 import java.util.List;
+
 import com.capgemini.OFD.domain.Customer;
+import com.capgemini.OFD.domain.Restaurant;
 
 public interface ICustomerService {
-
-	/* definition of addCustomer method for adding new customer */
-	Customer addCustomer(Customer customer); 
-
-	/* definition of updateCustomer method for updating customer */
-	Customer updateCustomer(Customer customer);
-
-	/* definition of removeCustomer method for removing customer */
-	public Customer removeCustomer(Customer customer); 
-
-	/* definition of viewCustomer method for viewing particular customer */
-	public Customer findCustomer(Customer customer);
-
-	/* definition of viewAllCustomer method for viewing all customers */
-	public List<Customer> findAllCustomer();
+	
+	public Customer addCustomer(Customer customer);
+	public Customer viewCustomer(Customer customer);
+	public Customer updateCustomer(Customer customer);
+	public Customer removeCustomer(Customer customer);
+	public List<Customer> viewAllCustomers(Restaurant res);
 
 }

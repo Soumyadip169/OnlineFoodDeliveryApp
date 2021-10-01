@@ -1,32 +1,23 @@
 package com.capgemini.OFD.repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.capgemini.OFD.domain.Bill;
 
-public interface IBillRepository extends CrudRepository<Bill, String> {
-	
-	// TODO : No need to implement methods
-	
-	/**
-	 * This method is used to view a bills from a particular startDate to a endDate
-	 * @param bill
-	 * @return
-	 */
-	List<Bill> viewBills(LocalDate startDate,LocalDate endDate);
-	/**
-	 * This method is used to view a bills of a particular customer by using customer Id
-	 * @param bill
-	 * @return
-	 */
-	List<Bill> viewBills(String custId);
-	/**
-	 * This method is used to calculate total cost of the ordered items
-	 * @param bill
-	 * @return
-	 */
-	double calculateTotalCost(Bill bill);
+public interface IBillRepository extends JpaRepository<Bill,Integer> {
+@Query("Select b from Bill b")
+	Bill findOne(Bill bill);
+@Query("Select sum(b.totalCost) from Bill b")
+double findTotalCost(Bill bill);
+
+@Query("Select b from Bill b")
+List<Bill> viewBill(Bill bill);
+
+@Query("Select b from Bill b where bill_date=?1")
+List<Bill> findBills(LocalDateTime date);
+
 }

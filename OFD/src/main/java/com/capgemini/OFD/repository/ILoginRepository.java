@@ -1,6 +1,7 @@
 package com.capgemini.OFD.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.capgemini.OFD.domain.Login;
 
@@ -9,7 +10,8 @@ import com.capgemini.OFD.domain.Login;
  * @author Soumyadip
  *
  */
-public interface ILoginRepository extends CrudRepository<Login, String> {
+@Repository
+public interface ILoginRepository extends JpaRepository<Login, Integer> {
 	
 	public Login signIn(Login login);
 	public Login signOut(Login login);

@@ -1,52 +1,19 @@
 package com.capgemini.OFD.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import com.capgemini.OFD.domain.FoodCart;
-import com.capgemini.OFD.domain.Item;
+import com.capgemini.OFD.domain.*;
 
-/**
- * The ICartRepository class is a repository,to implement the CRUD operations on cart
- * @author Sreeraj R
- *
- */
-@Repository
-public interface ICartRepository extends CrudRepository<FoodCart, String> {
-	/**
-	 * This addItemToCart method will add the item to cart
-	 * @param cart
-	 * @param item
-	 * @return 
-	 */
-	public FoodCart addItemToCart(FoodCart cart, Item item);
-	/**
-	 * This increaseQuantity method will increase the quantity of item by the value of quantity in the cart
-	 * @param cart
-	 * @param item
-	 * @param quantiy
-	 * @return
-	 */
-	public FoodCart increaseQuantity(FoodCart cart, Item item, int quantiy);
-	/**
-	 * This reduceQuantity method will reduce the quantity of item by the value of quantity in the cart
-	 * @param cart
-	 * @param item
-	 * @param quantity
-	 * @return
-	 */
-	public FoodCart reduceQuantity(FoodCart cart, Item item, int quantity);
-	/**
-	 * This removeItem method will remove the item from the cart
-	 * @param cart
-	 * @param item
-	 * @return
-	 */
-	public FoodCart removeItem(FoodCart cart, Item item);
-	/**
-	 * This clearCart method will clear all the items in the cart
-	 * @param cart
-	 * @return
-	 */
-	public FoodCart clearCart(FoodCart cart);
+public interface ICartRepository  extends JpaRepository<FoodCart,Integer> {
+	//@Query("Update Item Set quantity=?1")
+	//FoodCart save(Item item);
+//@Query("Update Item Set quantity=?1")
+	//FoodCart update(FoodCart cart, Item item, Integer quantity);
+	//@Query("Update  Item  Set quantity = ?1 ")
+	//FoodCart increaseQ(FoodCart cart, Item item, int quantity);
+
+	//FoodCart update(FoodCart cart
+	
+
 }

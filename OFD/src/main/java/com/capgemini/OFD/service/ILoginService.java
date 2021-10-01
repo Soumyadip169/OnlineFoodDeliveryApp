@@ -13,6 +13,6 @@ public interface ILoginService {
 	 * @param login
 	 * @return login for successfull login else returns null
 	 */
-	Login signIn(Login login);
-	Login signOut(Login login);
+	public Login signIn(Login login);
+	public Login signOut(Login login);
 }
